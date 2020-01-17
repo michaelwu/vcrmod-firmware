@@ -1,0 +1,9 @@
+[target.thumbv6m-none-eabi]
+
+rustflags = [
+  "-C", "link-arg=-Tmkl26z32.ld",
+  "-C", "target-cpu=cortex-m0plus",
+]
+
+[build]
+target = "thumbv6m-none-eabi"

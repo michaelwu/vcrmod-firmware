@@ -1,0 +1,79 @@
+MEMORY {
+	FLASH (rx): ORIGIN = 0, LENGTH = 30K
+	SRAM (rwx): ORIGIN = 0x1FFFFC00, LENGTH = 4K
+}
+
+SECTIONS {
+	.vector : { KEEP(*(.vector_table)) } > FLASH
+	.low_text : { *(.low_text*) } > FLASH
+	.flash_config 0x400 : {  KEEP(*(.flash_config)) } > FLASH
+	__exidx_start = .;
+	.ARM.exidx : { *(.ARM.exidx*) } > FLASH
+	__exidx_end = .;
+	.text : {
+		*(.text*)
+	} > FLASH
+	.rodata : {
+		*(.rodata*)
+		__text_end = .;
+	} > FLASH
+
+	.bss : {
+		__bss_begin = .;
+		*(.bss*)
+		__bss_end = .;
+	} > SRAM
+	.data : AT(__text_end) {
+		__data_begin = .;
+		*(.data*)
+		__data_end = .;
+	} > SRAM
+
+	__stack_top = ORIGIN(SRAM) + LENGTH(SRAM);
+
+	SIM_SCGC4 = 0x40048034;
+	SIM_SCGC5 = 0x40048038;
+	SIM_SCGC6 = 0x4004803C;
+	SIM_SCGC7 = 0x40048040;
+	SIM_CLKDIV1 = 0x40048044;
+	SIM_SOPT2 = 0x40048004;
+	SIM_COPC = 0x40048100;
+	PORTA = 0x40049000;
+	PORTB = 0x4004A000;
+	PORTC = 0x4004B000;
+	PORTD = 0x4004C000;
+	PORTE = 0x4004D000;
+	GPIOA = 0xF800F000;
+	GPIOB = 0xF800F040;
+	GPIOC = 0xF800F080;
+	GPIOD = 0xF800F0C0;
+	GPIOE = 0xF800F100;
+	OSC0_CR = 0x40065000;
+	MCG_C1 = 0x40064000;
+	MCG_C2 = 0x40064001;
+	MCG_C3 = 0x40064002;
+	MCG_C4 = 0x40064003;
+	MCG_C5 = 0x40064004;
+	MCG_C6 = 0x40064005;
+	MCG_S = 0x40064006;
+	MCG_SC = 0x40064008;
+	MCG_ATCVH = 0x400640A;
+	MCG_ATCVL = 0x400640B;
+	MCG_C7 = 0x4006400C;
+	MCG_C8 = 0x4006400D;
+	MCG_C9 = 0x4006400E;
+	MCG_C10 = 0x4006400F;
+	PMC_REGSC = 0x4007D002;
+	SYST_CSR = 0xE000E010;
+	SYST_RVR = 0xE000E014;
+	SYST_CVR = 0xE000E018;
+	SPI0 = 0x40076000;
+	SPI1 = 0x40077000;
+	UART1 = 0x4006B000;
+	UART2 = 0x4006C000;
+	USB0 = 0x40072000;
+	NVIC_ISER = 0xE000E100;
+	NVIC_ICER = 0xE000E180;
+	NVIC_ISPR = 0xE000E200;
+	NVIC_ICPR = 0xE000E280;
+}
