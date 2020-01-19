@@ -10,10 +10,8 @@ SECTIONS {
 	__exidx_start = .;
 	.ARM.exidx : { *(.ARM.exidx*) } > FLASH
 	__exidx_end = .;
-	.text : {
+	.text 0x410 : {
 		*(.text*)
-	} > FLASH
-	.rodata : {
 		*(.rodata*)
 		__text_end = .;
 	} > FLASH
